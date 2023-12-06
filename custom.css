@@ -1,0 +1,144 @@
+/*
+    custom.css
+    Any site-specific CSS customization should be added to this file.
+    This file overrides the defaults in illiad.css, which should not be altered.
+*/
+
+
+h1 {
+    font-size: 3.5em;
+    padding: 5px;
+	margin-bottom: 0;
+}
+
+h2 {
+	font-weight: bold;
+	margin-bottom: 0.5em;
+}
+
+ul {
+	margin-top: 2rem;
+}
+
+li {
+	padding-bottom: 0.75em;
+}
+
+.head {
+    background-color: #18264e;
+	color: #fff;
+    height: auto;
+    padding: 5px;
+    text-align: left;
+}
+
+.head img {
+
+	width: 18%;
+	height: 18%;
+	padding-right: 10px;
+}
+
+.page-header {
+    padding: 2px 0 0;
+}
+
+.main-navbar {
+    background-color: #18264e;
+    font: bold 26px;
+}
+
+.navbar-nav {
+    margin-top: 0;
+}
+
+nav li a {
+    font: bolder 18px;
+}
+
+/* mb4 adjusts part of the menu spacing */
+.mb-4, .my-4 {
+    margin-bottom: 0rem!important;
+}
+
+.mt-4, .my-4 {
+    margin-top: 0rem!important;
+}
+
+.alert-secondary {
+    background-color: #fff;
+}
+
+.btn-alert {
+	color: #b81f18;
+}
+
+/*footer*/
+.foot p {
+	padding: unset;
+	color: #000000;
+}
+
+/*cookie message */
+#cm.bar {
+	padding: 1em;
+}
+
+/* article page DOI and PMID field adjustments */
+input#DOI {
+    width: 50%;
+    display: unset;
+}
+
+button#doibutton {
+    display: unset;
+	margin: 2px 0;
+}
+
+input#PMID {
+    width: 50%;
+    display: unset;
+}
+
+button#pmidbutton {
+    display: unset;
+	margin: 2px 0;
+}
+
+/* end article page DOI and PMID field adjustments */
+
+form section {
+  background-color: #e9ecef8a;
+  margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 0.75em;
+}
+
+/* tooltip hover over i symbol */
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  opacity: unset;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 300px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
