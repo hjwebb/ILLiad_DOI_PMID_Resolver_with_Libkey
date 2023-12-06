@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<title>Article Request | ILLiad | Upstate Health Sciences Library</title>
+	<#INCLUDE filename="include_head.html">
+	<script type="text/javascript" src="js/DOIPMIDResolver_LK.js?v=1.0" defer></script>
+</head>
+
+<body>
+    <#INCLUDE filename="include_header.html">
+    <#INCLUDE filename="include_menu.html">  
+
+    <div class="container">
+		<main id="content" aria-label="Content">
+			<form action="illiad.dll" method="post" name="ArticleRequest">
+				<input type="hidden" name="ILLiadForm" value="ArticleRequest">
+				<input type="hidden" name="ESPNumber" value="<#PARAM name='ESPNumber'>">
+				<input type="hidden" name="CallNumber" value="<#PARAM name='CallNumber'>">
+				<input type="hidden" name="NotWantedAfter" value="<#PARAM name='NotWantedAfter'>">
+				<#FORMSTATE>
+					
+				<fieldset>	
+
+					<h2 class="page-header">Article Request</h2>
+								
+                    
+                    <section name="doi-resolver">
+										 
+                        <div class="form-group col-md-9">
+                            <label for="DOI">
+                                <span class="field">
+                                    <span class="<#ERROR name='ERRORDOI'>">
+                                        DOI
+										<div class="tooltip">
+										<span aria-hidden="true" class="fas fa-info-circle mr-1"></span><span class="tooltiptext">This DOI resolver will take a Digital Object Identifier and complete the citation information on this article request form. If you have already imported the citation from a database or Primo search, there is no need to look up the citation with the identifiers. </span>								
+										</div>	
+									</span>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" name="DOI" id="DOI" value="<#PARAM name='DOI'>">  
+							<button type="button" id="doibutton" class="btn btn-primary btn-md c-doi" onclick="resolveDOI()">Look Up Citation Information by DOI 
+							</button> 	
+							<br>
+                            <span class="note text-danger" id="doierrormessage"></span>
+                        </div>
+						
+                        <div class="form-group col-md-9">
+                            <label for="PMID">
+                                <span class="field">
+                                    <span class="<#ERROR name='ERRORPMID'>">
+                                        PubMed ID
+										<div class="tooltip">
+										<span aria-hidden="true" class="fas fa-info-circle mr-1"></span><span class="tooltiptext">This PMID resolver will take a PubMed unique identifier number and complete the citation information on this article request form. If you have already imported the citation from a database or Primo search, there is no need to look up the citation with the identifiers. </span>								
+										</div>	
+                                    </span>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" name="PMID" id="PMID" value="<#PARAM name='PMID'>">
+                            <button type="button" id="pmidbutton" class="btn btn-primary btn-md c-doi" onclick="resolvePMID()">Look Up Citation Information by PMID</button><br>
+                            <span class="note text-danger" id="pmiderrormessage"></span>
+                        </div>
+						
+						
+						<div aria-live="polite">
+                            <div id="oaloading" style="display:none">
+                                <div class="spinner-border text-warning" role="status"><span class="sr-only">Looking up full text access...</span></div>
+                                <span class="note">Looking up full text access...</span>
+                            </div>
+                            <div id="openaccessdiv" style="display:none">
+                                <span class="note">*The article is available through a library subscription or open access. If the link is NOT correct, please continue to submit your request.</span><br/>
+                                <button type="button" class="btn btn-primary btn-md c-open" id="openaccessbutton">View/Download Full Text <span aria-hidden="true" class="fas fa-file-alt"></span></button><br/>
+								<button class="btn btn-secondary btn-md" type="reset" id="buttonReset" name="ResetButton" value="Clear Form">Reset form</button>
+                            </div>
+                        </div>
+						
+                    </section>
+									
+					<section name="article-info">
+
+						<div class="form-group col-md-9">
+							<label for="PhotoJournalTitle">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoJournalTitle'>">
+										Title (Journal, Conference Proceedings, Anthology)  
+										<span class="req">(required)</span>
+									</span>
+								</span>
+								<br>
+							</label>
+							<input type="text" class="form-control" name="PhotoJournalTitle" id="PhotoJournalTitle" value="<#PARAM name='PhotoJournalTitle'>" required>	
+						</div>
+
+						<div class="form-group col-md-9">
+							<label for="PhotoArticleTitle">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoArticleTitle'>">
+										Article Title  
+										<span class="req">(required)</span> 
+									</span>	
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoArticleTitle" id="PhotoArticleTitle" value="<#PARAM name='PhotoArticleTitle'>" required>
+						</div>
+
+						<div class="form-group col-md-9"> 
+							<label for="PhotoArticleAuthor">
+								<span class="field">
+								<span class="<#ERROR name='ERRORPhotoArticleAuthor'>">
+										Article Author   
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoArticleAuthor" id="PhotoArticleAuthor" value="<#PARAM name='PhotoArticleAuthor'>">
+						</div>
+						
+						<div class="form-group col-md-9">
+							<label for="PhotoJournalVolume">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoJournalVolume'>">
+										Volume
+									</span>
+									<br>
+									<span class="small-notes">For ahead of print material, leave blank or indicate publishing status.</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoJournalVolume" id="PhotoJournalVolume" value="<#PARAM name='PhotoJournalVolume'>">
+						</div>
+								
+						<div class="form-group col-md-9">
+							<label for="PhotoJournalIssue">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoJournalIssue'>">
+										Issue Number or Designation
+									</span>
+									<br>
+									<span class="small-notes">For ahead of print material, leave blank or indicate publishing status.</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoJournalIssue" id="PhotoJournalIssue" value="<#PARAM name='PhotoJournalIssue'>">
+						</div>
+								
+						<div class="form-group col-md-9">
+							<label for="PhotoJournalMonth">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoJournalMonth'>">
+										Month
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoJournalMonth" id="PhotoJournalMonth" value="<#PARAM name='PhotoJournalMonth'>">
+						</div>
+							
+						<div class="form-group col-md-9">
+							<label for="PhotoJournalYear">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoJournalYear'>">
+										Year   
+										<span class="req">(required)</span>
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoJournalYear" id="PhotoJournalYear" value="<#PARAM name='PhotoJournalYear'>">
+						</div>
+					
+						<div class="form-group col-md-9">
+							<label for="PhotoJournalInclusivePages">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoJournalInclusivePages'>">
+										Inclusive Pages   
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoJournalInclusivePages" id="PhotoJournalInclusivePages" value="<#PARAM name='PhotoJournalInclusivePages'>">
+						</div>
+								
+						<div class="form-group col-md-9">
+							<label for="ISSN">
+								<span class="field">
+									<span class="<#ERROR name='ERRORISSN'>"> 
+										ISSN (International Standard Serial Number)   
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="ISSN" id="ISSN" value="<#PARAM name='ISSN'>">
+						</div>
+					</section>			
+						
+				
+			<div class="card border-dark mb-3">
+				<div class="card-header"><strong>Please Review Before Submission</strong></div>
+				<div class="card-body">
+					
+					<div class="form-group col-md-9">
+					<label for="Rush">
+						<span class="field">
+							<span class="<#ERROR name="ERRORRush">">
+							Is this resource needed for immediate patient care?
+							<div class="tooltip">
+							<span aria-hidden="true" class="fas fa-info-circle mr-1"></span><span class="tooltiptext">Selecting 'yes' to this question would indicate to library staff that this resource would be used in the care and treatment of a specific patient under the requester's care. </span>								
+						</div>
+							
+							
+							</span>
+						</span>
+					</label>	
+						
+					<select id="Rush" name="Rush" size="1" class="custom-select mr-sm-2" data-persistedValue="<#PARAM name="Rush">" >
+						<option>No</option>
+						<option>Yes</option>
+					</select>
+					</div>
+						
+					<div class="form-group col-md-9">
+						<label for="AcceptNonEnglish">
+							<span class="field">
+								<span class="<#ERROR name="ERRORAcceptNonEnglish">">
+								Will you accept the item in a language other than English?
+								</span><br>
+								<span class="small-notes">The library cannot provide translations of materials, only languages materials are published in. If you are willing to accept languages other than English, please indicate which in the Notes section below</span>
+							</span>
+						</label>
+						
+						<select id="AcceptNonEnglish" name="AcceptNonEnglish" size="1" class="custom-select mr-sm-2" data-persistedValue="<#PARAM name="AcceptNonEnglish">">
+							<option>No</option>
+							<option>Yes</option>
+						</select>
+					</div>
+					
+					<div class="form-group col-md-9">
+						<label for="Notes">
+							<span class="field">
+								<span class="<#ERROR name='ERRORNotes'>">  
+									Notes   
+								</span><br>
+								<span class="small-notes">Put any information here that may help us find the item, as well as any other pertinent information, exigent circumstances, or acceptable languages.</span>
+							</span>
+						</label>
+						<textarea id="Notes" name="Notes" rows="2" cols="40" class="form-control"><#PARAM name='Notes'></textarea>
+					</div>
+							
+				</div>
+			</div>
+					
+					<#INCLUDE filename="include_request_cited.html">                
+					<#INCLUDE filename="include_request_buttons.html">
+				</fieldset>
+				<p>Typically, articles are delivered to your email within 1-2 business days. Older and more unique items often take longer. If the request has urgent circumstances, please add a note to your request, or send an email to request@upstate.edu after submitting.</p>
+			</form>		
+		</main>
+		<#INCLUDE filename="include_footer.html">
+	</div>    
+</body>
+</html>
+
