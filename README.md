@@ -1,4 +1,5 @@
 # ILLiad_DOI_PMID_Resolver_with_Libkey
+## Description / What this does
 Ability to enter a DOI or PMID to query Crossref and PubMed to fill out the article request form AND query your ThirdIron holdings for subscription or open access content.
 
 ![image](https://github.com/hjwebb/ILLiad_DOI_PMID_Resolver_with_Libkey/assets/20861245/2271d03c-4884-45b2-842e-49cce740ee1d)
@@ -20,12 +21,12 @@ Two file versions exist depending on whether you have a subscription to ThirdIro
 Put .js file on webpage server in the folder called “js”
 
 ## Article Request html page
-1. Add the call to the javascript file in the head section
+1. Add the code to call the javascript file in the head section
 2. Edit DOI and PMID fields
-3. Add LibKey or OpenAccess button links
+3. Add LibKey or OpenAccess button link sections
 
 ## CSS File
-This file only needs to be updated to match your local look and feel or adjust to match the examples in the powerpoint and images in this repository. In particular, the html file includes a tooltip not found in the default webpages.
+This file only needs to be updated to match your local look and feel or adjust to match the examples in the powerpoint and images in this repository. In particular, the 'attached' articlerequest.html file includes a tooltip not found in the default webpages.
 
 
 
