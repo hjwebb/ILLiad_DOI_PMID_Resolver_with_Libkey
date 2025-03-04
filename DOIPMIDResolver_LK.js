@@ -14,7 +14,7 @@
 - changed file name to DOIPMIDResolver_LK.js
 - replaced openaccess button with ThirdIron's Libkey. In the process several API call components were updated. The Libkey functionality still mostly runs through the original variables for the openaccess button.
 - To customize for your Libkey connection edit lines 30 and 31
-
+- March 2025 - added code to capture all libkey full text and content links 
 */
 
 // Element IDs
@@ -183,7 +183,12 @@ function checkOpenAccess(doi){
       if (response.data.fullTextFile) {
           console.log(response);
           displayOpenAccessLink(response.data.fullTextFile);
-      } else {
+      } 
+      	  else if (response.data.availableThroughBrowzine) {
+          console.log("true");
+          displayOpenAccessLink(response.data.contentLocation);
+      } 
+      else {
           console.log("no open access");
       }
     } else if (xmlhttp.status == 404) {
