@@ -22,7 +22,7 @@
 					
 				<fieldset>	
 
-					<h2 class="page-header">Article Request</h2>
+					<legend><h2 class="page-header">Article Request</h2></legend>
 								
                     
                     <section name="doi-resolver">
@@ -32,15 +32,19 @@
                                 <span class="field">
                                     <span class="<#ERROR name='ERRORDOI'>">
                                         DOI
-										<div class="tooltip">
-										<span aria-hidden="true" class="fas fa-info-circle mr-1"></span><span class="tooltiptext">This DOI resolver will take a Digital Object Identifier and complete the citation information on this article request form. If you have already imported the citation from a database or Primo search, there is no need to look up the citation with the identifiers. </span>								
-										</div>	
+                                    <div class="tooltip">
+									<span aria-hidden="true" class="fas fa-info-circle mr-1"></span><span class="tooltiptext">This DOI resolver will take a Digital Object Identifier and complete the citation information on this article request form. If you have already imported the citation from a database or Primo search, there is no need to look up the citation with the identifiers. </span>								
+								</div>
+									
 									</span>
+									
                                 </span>
                             </label>
                             <input type="text" class="form-control" name="DOI" id="DOI" value="<#PARAM name='DOI'>">  
 							<button type="button" id="doibutton" class="btn btn-primary btn-md c-doi" onclick="resolveDOI()">Look Up Citation Information by DOI 
-							</button> 	
+
+							</button> 
+								
 							<br>
                             <span class="note text-danger" id="doierrormessage"></span>
                         </div>
@@ -50,9 +54,10 @@
                                 <span class="field">
                                     <span class="<#ERROR name='ERRORPMID'>">
                                         PubMed ID
-										<div class="tooltip">
-										<span aria-hidden="true" class="fas fa-info-circle mr-1"></span><span class="tooltiptext">This PMID resolver will take a PubMed unique identifier number and complete the citation information on this article request form. If you have already imported the citation from a database or Primo search, there is no need to look up the citation with the identifiers. </span>								
-										</div>	
+									<div class="tooltip">
+									<span aria-hidden="true" class="fas fa-info-circle mr-1"></span><span class="tooltiptext">This PMID resolver will take a PubMed unique identifier number and complete the citation information on this article request form. If you have already imported the citation from a database or Primo search, there is no need to look up the citation with the identifiers. </span>								
+								</div>
+										
                                     </span>
                                 </span>
                             </label>
@@ -64,7 +69,7 @@
 						
 						<div aria-live="polite">
                             <div id="oaloading" style="display:none">
-                                <div class="spinner-border text-warning" role="status"><span class="sr-only">Looking up full text access...</span></div>
+                                <div class="spinner-border text-warning" role="status"><span class="sr-only">oaloading Looking up full text access...</span></div>
                                 <span class="note">Looking up full text access...</span>
                             </div>
                             <div id="openaccessdiv" style="display:none">
@@ -75,7 +80,8 @@
                         </div>
 						
                     </section>
-									
+					
+					
 					<section name="article-info">
 
 						<div class="form-group col-md-9">
