@@ -21,7 +21,7 @@ Two file versions exist depending on whether you have a subscription to ThirdIro
 Put .js file on webpage server in the folder called “js”
 
 ### Website Tracking - Matomo and JS File
-To capture the Libkey link as an outlink in Matomo, adjust the following code that started on line 201 in DOIPMIDResolver_LK.js to set an onclick attribute and forces a link tracking on clicking the button. You'll probably want to change the link description 'https://libkey.io/libraries/1990/ illresolver' to match your needs.
+To capture the Libkey link as an outlink in Matomo, adjust the following code that started on line 219 in DOIPMIDResolver_LK.js to set an onclick attribute and forces a link tracking on clicking the button. You'll probably want to change the link description 'https://libkey.io/libraries/1990/ illresolver' to match your needs.
 ```
 // If an OA link was found, display it.
 function displayOpenAccessLink(url){
