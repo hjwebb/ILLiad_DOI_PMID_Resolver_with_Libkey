@@ -1,20 +1,20 @@
 /* Originial File DOIResolver.js
   Author: Austin Smith
   These functions are intended for use with the ILLiad ArticleRequest.html page.
-*/
 
-/* Modifications by Meredith Foster
- * - Fixed API for OpenAccessButton
+ Modifications by Meredith Foster
  * - Display a loading spinner when the OpenAccess is running
  * - Bind ENTER in either box to the appropriate button rather than the default of submit form.
  * - Merged in Austin's PubMed support, modified to search PubMed rather than the PMC.
-*/
 
-/* Modified further by Heidi Webb and Michael Campese - Upstate Medical University
+ Modified further by Heidi Webb and Michael Campese - Upstate Medical University
 - changed file name to DOIPMIDResolver_LK.js
 - replaced openaccess button with ThirdIron's Libkey. In the process several API call components were updated. The Libkey functionality still mostly runs through the original variables for the openaccess button.
-- To customize for your Libkey connection edit lines 30 and 31
-- March 2025 - added code to capture all libkey full text and content links 
+***** To customize for your Libkey connection edit lines 30 and 31 *********
+
+Additional Modifications by Heidi Webb
+- March 2025 - added code to capture all libkey full text and content links
+- July 2025 - edited DOI triming code to capture more variations in how people paste DOIs. Included edits to allow both PMID and DOI
 */
 
 // Element IDs
@@ -40,22 +40,34 @@ function resolveDOI(doi = null, errorDiv = DoiErrorMessageDivId, errorMessage = 
   clearErrorMessage(errorDiv);
   hideOpenAccessLink();
   
-  if (doi == null) {
-      // Perform some basic cleanup on the DOI - 
-      // use https, remove spaces, ensure the correct url is used, 
-      // remove a trailing period if there is one.
-      var doi = document.getElementById(DoiInputId).value.trim();
-      doi = doi.replace("http:","https:").replace(" ","").replace("dx.doi.org","doi.org");
-      if (doi.substr(-1) == "."){ doi = doi.substr(0, doi.length - 1); }
+//edited code to fully trim any type of doi/https or other prefixes July25
+// Use passed-in DOI if available, otherwise get from input field
+  if (doi === null) {
+    doi = document.getElementById(DoiInputId).value.trim();
   }
-  
-  if (doi == "") {
-        displayErrorMessage(errorDiv, "Please enter a DOI");
-        return;
-  }
-  
-  var doi_url = (doi.includes("https://doi.org/")) ? doi : "https://doi.org/" + doi;
-  console.log(doi_url);
+
+// Normalize the DOI input
+doi = doi.replace("http:", "https:")
+         .replace(/\s+/g, "") // remove all spaces
+         .replace("dx.doi.org", "doi.org");
+
+// Remove trailing period if present
+if (doi.endsWith(".")) {
+    doi = doi.slice(0, -1);
+}
+
+// Extract the DOI part only
+if (doi.includes("doi.org/")) {
+    doi = doi.split("doi.org/")[1];
+}
+
+if (doi === "") {
+    displayErrorMessage(errorDiv, "Please enter a DOI");
+    return;
+}
+
+var doi_url = "https://doi.org/" + doi;
+console.log(doi_url);
 
   // create an http request, specifying that a JSON response is desired.
   var xmlhttp = new XMLHttpRequest();
