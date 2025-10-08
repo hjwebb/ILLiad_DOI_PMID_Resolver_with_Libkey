@@ -13,7 +13,7 @@
 
     <div class="container">
 		<main id="content" aria-label="Content">
-			<form action="illiad.dll" method="post" name="ArticleRequest">
+			<form action="illiad.dll" method="post" name="ArticleRequest" id="ArticleRequestForm">
 				<input type="hidden" name="ILLiadForm" value="ArticleRequest">
 				<input type="hidden" name="ESPNumber" value="<#PARAM name='ESPNumber'>">
 				<input type="hidden" name="CallNumber" value="<#PARAM name='CallNumber'>">
@@ -77,6 +77,10 @@
                                 <button type="button" class="btn btn-primary btn-md c-open" id="openaccessbutton">View/Download Full Text <span aria-hidden="true" class="fas fa-file-alt"></span></button><br/>
 								<button class="btn btn-secondary btn-md" type="reset" id="buttonReset" name="ResetButton" value="Clear Form">Reset form</button>
                             </div>
+							<div id="success" style="display:none;">
+								<p class="none">The article request form has been filled with the information about this article.</p>
+							</div>
+							<button class="btn btn-secondary btn-md" type="reset" id="buttonReset" name="ResetButton" value="Clear Form" style="display:none;">Reset Form</button>
                         </div>
 						
                     </section>
