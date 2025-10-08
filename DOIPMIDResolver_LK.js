@@ -158,13 +158,10 @@ function clearErrorMessages(){
 }
 
 function displayResetButton() {
-  console.log('displayResetButton fired');
-  console.log(ResetButton);
   ResetButton.style.display = "block";
 }
 
 function hideResetButton() {
-  console.log('hideResetButton fired');
   ResetButton.style.display = "none";
 }
 
