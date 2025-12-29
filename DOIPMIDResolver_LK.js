@@ -15,6 +15,11 @@
 Additional Modifications by Heidi Webb
 - March 2025 - added code to capture all libkey full text and content links
 - July 2025 - edited DOI triming code to capture more variations in how people paste DOIs. Included edits to allow both PMID and DOI
+
+Modifications by Becca Stevens - WashU Libraries
+- added a success message and reset button
+- added code to extract a valid DOI from a DOI URL before checking for Open Access
+- moved displayOpenAccessLoading function into the checkOpenAccess block, so that the loading message does not display if there is an error in retrieving the DOI
 */
 
 // Element IDs
@@ -27,6 +32,8 @@ const PmidErrorMessageText = "There was an error retrieving this PubMed ID.";
 const OpenAccessButtonDivId = "openaccessdiv";
 const OpenAccessButtonId = "openaccessbutton";
 const OpenAccessLoadingDivId = "oaloading";
+const SuccessDiv = document.getElementById('success');
+const ResetButton = document.getElementById('buttonReset');
 const ThirdIronID = "";
 const ThirdIronAPIKey = "";
 
@@ -37,9 +44,12 @@ const PmidBaseUrl = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi
    Otherwise, display an error message.
 */
 function resolveDOI(doi = null, errorDiv = DoiErrorMessageDivId, errorMessage = DoiErrorMessageText){
-  clearErrorMessage(errorDiv);
+  clearErrorMessages();
   hideOpenAccessLink();
-  
+  hideOpenAccessLoading();
+  hideSuccessMessage();
+  hideResetButton();
+
 //edited code to fully trim any type of doi/https or other prefixes July25
 // Use passed-in DOI if available, otherwise get from input field
   if (doi === null) {
@@ -77,9 +87,11 @@ console.log(doi_url);
       checkOpenAccess(doi); // Working with the new API
     } else if (xmlhttp.status == 404) {
       displayErrorMessage(errorDiv, errorMessage);
-    }
+    } else if (xmlhttp.status == 400) { // 400 is returned if search string is not a valid DOI
+      displayErrorMessage(errorDiv, errorMessage);
+    }    
   };
-  displayOpenAccessLoading();
+  displayResetButton();  
   xmlhttp.open("GET", doi_url, true);
   xmlhttp.setRequestHeader("Accept", "application/vnd.citationstyles.csl+json")
   xmlhttp.send();
@@ -87,7 +99,12 @@ console.log(doi_url);
 
 // Get a DOI from a PMID using the API described here: https://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/
 function resolvePMID(){
-  clearErrorMessage(PmidErrorMessageDivId);
+  clearErrorMessages();
+  hideOpenAccessLink();
+  hideOpenAccessLoading();
+  hideSuccessMessage();
+  hideResetButton();
+
   var pmid = document.getElementById(PmidInputId).value;
   pmid = pmid.replace(" ","");
   pmid_url = PmidBaseUrl + pmid + "&format=json"
@@ -99,7 +116,7 @@ function resolvePMID(){
     xmlhttp.onloadend = function() {
       if (xmlhttp.status == 200) {
         let resp = JSON.parse(this.responseText);
-        if (resp.result[pmid].articleids) {
+        if (resp.result[pmid]) {
             for (let index = 0; index < resp.result[pmid].articleids.length; ++index) {
                 if (resp.result[pmid].articleids[index].idtype == "doi") {
                     let doi = resp.result[pmid].articleids[index].value
@@ -121,6 +138,7 @@ function resolvePMID(){
         displayErrorMessage(PmidErrorMessageDivId, PmidErrorMessageText);
       }
     };
+    displayResetButton();
     xmlhttp.open("GET", pmid_url, true);
     xmlhttp.setRequestHeader("Accept", "application/vnd.citationstyles.csl+json")
     xmlhttp.send();
@@ -132,11 +150,50 @@ function displayErrorMessage(divId, message){
   error_message.innerHTML = "<b>"+message+"</b>"
 }
 
-function clearErrorMessage(divId){
-  error_message = document.getElementById(divId)
-  error_message.innerHTML = ""
+// Users expect all error messages to be cleared when resubmitting a form,
+// any errors that recur will be handled after the form is resubmitted
+function clearErrorMessages(){
+  document.getElementById(PmidErrorMessageDivId).innerHTML = "";
+  document.getElementById(DoiErrorMessageDivId).innerHTML = "";
 }
 
+function displayResetButton() {
+  ResetButton.style.display = "block";
+}
+
+function hideResetButton() {
+  ResetButton.style.display = "none";
+}
+
+function displaySuccessMessage() {
+  SuccessDiv.style.display = "block";
+}
+
+function hideSuccessMessage() {
+  SuccessDiv.style.display = "none";
+}
+
+function resetAll() {
+  clearErrorMessages();
+  hideOpenAccessLink();
+  hideOpenAccessLoading();
+  hideSuccessMessage();
+  hideResetButton();
+  document.getElementById('ArticleRequestForm').reset();   
+}
+
+ResetButton.addEventListener("click", (event) => {
+  resetAll();
+});
+
+function isValidUrl(urlString) {
+  try {
+    new URL(urlString);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 
 function autofillFields(responseText){
   citation_json = JSON.parse(responseText);
@@ -186,6 +243,14 @@ function autofillFields(responseText){
 
 // Check openaccessbutton.org for an open access copy.
 function checkOpenAccess(doi){
+  displayOpenAccessLoading();
+  // check if doi value is a url, strip domain and leading slash to get valid doi
+  if(isValidUrl(doi)) {
+    doi_url = new URL(doi);
+    doi = doi_url.pathname;
+    doi = doi.replace(/^\/+|\/+$/g, '');
+  }
+
   oa_url = "https://public-api.thirdiron.com/public/v1/libraries/" + ThirdIronID + "/articles/doi/" + encodeURIComponent(doi)
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onloadend = function() {
@@ -202,9 +267,13 @@ function checkOpenAccess(doi){
       } 
       else {
           console.log("no open access");
+          hideOpenAccessLink();
+          displaySuccessMessage();          
       }
     } else if (xmlhttp.status == 404) {
       console.log("no open access");
+      hideOpenAccessLink();
+      displaySuccessMessage();      
     }
   };
   xmlhttp.open("GET", oa_url, true);
