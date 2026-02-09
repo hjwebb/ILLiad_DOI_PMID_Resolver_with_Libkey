@@ -12,12 +12,10 @@ DOI Resolver was originally developed by A.S. and demo-ed at some Atlas Systems 
 The associated powerpoint file generally describes what the functionality is and what files need to be edited. It is a little outdated and does not include retraction information. Some basic instructions are below.
 
 ## Javascript File
-DOIPMIDResolver_LK.js uses ThirdIron’s Libkey
-  - Add your ThirdIron ID and an API key by editing lines 37 and 38
-  
- Another older js file is still included for reference: DOIResolver.js It uses OA.Works’ OpenAccess button which has been sunsetted since posting.
-
+In DOIPMIDResolver_LK.js **add your ThirdIron ID and an API key by editing lines 37 and 38**
 Put .js file on your webpage server in the folder called “js”
+
+Another older js file is still included for reference: DOIResolver.js It uses OA.Works’ OpenAccess button which has been sunsetted since posting.
 
 ### Website Tracking - Matomo and JS File
 If you use Matomo and want to capture the Libkey link as an outlink in Matomo, hide the function in lines 368-373 and unhide the function in lines 377 to 385. You'll probably want to change the link description 'https://libkey.io/libraries/1990/ illresolver' to match your needs.
