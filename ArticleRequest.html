@@ -65,7 +65,14 @@
                             <button type="button" id="pmidbutton" class="btn btn-primary btn-md c-doi" onclick="resolvePMID()">Look Up Citation Information by PMID</button><br>
                             <span class="note text-danger" id="pmiderrormessage"></span>
                         </div>
+
+						<div name="retraction" class="retraction" id="retraction" style="display:none;">
+								<p>Retracted Article <a href="">View information about the retraction.</a></p>
+						</div>
 						
+						<div name="retractcitations" class="retractcitations" id="retractcitations" style="display:none;">
+								<p>Note: This article contains retracted citations.</p>
+						</div>
 						
 						<div aria-live="polite">
                             <div id="oaloading" style="display:none">
@@ -78,9 +85,12 @@
 								<button class="btn btn-secondary btn-md" type="reset" id="buttonReset" name="ResetButton" value="Clear Form">Reset form</button>
                             </div>
 							<div id="success" style="display:none;">
-								<p class="none">The article request form has been filled with the information about this article.</p>
-							<button class="btn btn-secondary btn-md" type="reset" id="buttonReset" name="ResetButton" value="Clear Form">Reset Form</button>
-								</div>
+								 <!-- 
+								 include this paragraph if you want a message to appear after a successful lookup 
+								 <p class="none">The article request form has been filled with the information about this article.</p> 
+								 -->
+							<button class="btn btn-secondary btn-md" type="reset" id="buttonReset2" name="ResetButton" value="Clear Form">Reset Form</button> <!-- button needs the buttonReset2 id to clear correctly with the js code -->
+							</div>
                         </div>
 						
                     </section>
@@ -262,5 +272,6 @@
 	</div>    
 </body>
 </html>
+
 
 
