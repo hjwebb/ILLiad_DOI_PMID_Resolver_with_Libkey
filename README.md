@@ -91,17 +91,17 @@ If you use Matomo and want to capture the Libkey link as an outlink in Matomo, h
 4. Add Retraction sections if interested in that notice.
 ```
 <div name="retraction" class="retraction" id="retraction" style="display:none;">
-								<p>Retracted Article <a href="">View information about the retraction.</a></p>
-						</div>
+	<p>Retracted Article <a href="">View information about the retraction.</a></p>
+</div>
 						
-						<div name="retractcitations" class="retractcitations" id="retractcitations" style="display:none;">
-								<p>Note: This article contains retracted citations.</p>
-						</div>
+<div name="retractcitations" class="retractcitations" id="retractcitations" style="display:none;">
+	<p>Note: This article contains retracted citations.</p>
+</div>
 ```
 
 ## CSS File
 This file only needs to be updated to match your local look and feel or adjust to match the examples in the powerpoint and images in this repository. In particular, the 'attached' articlerequest.html file includes a tooltip not found in the default webpages.
-
+Specifically, lines 215-256 adjust various tooltips and 145-192 adjust formating for the DOI, PMID, success, and retraction sections. 
 
 
 
