@@ -2,7 +2,8 @@
 ## Description / What this does
 This code enables the article request form in ILLiad to have searchable DOI and PMID fields. Clicking a Lookup Button queries Crossref and PubMed to fill out the article request form. It also queries ThirdIron's API to display full-text links to subscription and open access content listed in your ThirdIron holdings (A ThirdIron subscription is required to use the API). The code also checks the ThirdIron API for retraction information upon page load for openurl entries and upon clicking the Lookup Button for manual citation information lookups. 
 
-![image](https://github.com/hjwebb/ILLiad_DOI_PMID_Resolver_with_Libkey/assets/20861245/2271d03c-4884-45b2-842e-49cce740ee1d)
+<!-- ![image](https://github.com/hjwebb/ILLiad_DOI_PMID_Resolver_with_Libkey/assets/20861245/2271d03c-4884-45b2-842e-49cce740ee1d) -->
+![retracted_article_example](https://github.com/user-attachments/assets/75e2e676-85ed-4e51-a8ec-75217ef94820)
 
 
 ## History
