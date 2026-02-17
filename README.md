@@ -22,6 +22,8 @@ Another older js file is still included for reference: DOIResolver.js It uses OA
 If you use Matomo and want to capture the Libkey link as an outlink in Matomo, hide the function in lines 368-373 and unhide the function in lines 377 to 385. You'll probably want to change the link description 'https://libkey.io/libraries/1990/ illresolver' to match your needs.
 
 ## Article Request html page
+Note: This page is edited from the 9.2.0 default pages. 
+
 1. Add the code to call the javascript file in the head section
 ```
 	<script type="text/javascript" src="js/DOIPMIDResolver_LK_test.js" defer></script>
